@@ -18,8 +18,8 @@ namespace CodingDojo4_Minesweeper.Tests
         [Test]
         public void ShouldDrawBoardWithEmptySpaces()
         {
-            var _minesweeper = new Minesweeper();
-            var board = _minesweeper.DrawBoard();
+            var minesweeper = new Minesweeper();
+            var board = minesweeper.DrawBoard();
 
             Assert.That(board, Is.EqualTo(
                 "----" +
@@ -32,12 +32,12 @@ namespace CodingDojo4_Minesweeper.Tests
         [Test]
         public void ShouldDrawBoardWithMinesPreConfigured()
         {
-            var _minesweeper = new Minesweeper(
+            var minesweeper = new Minesweeper(
                 new MinePlace(row: 1, col: 1),
                 new MinePlace(row: 2, col: 4)
             );
 
-            var board = _minesweeper.DrawBoard();
+            var board = minesweeper.DrawBoard();
             Assert.That(board, Is.EqualTo(
                 "*---" +
                 "---*" +
@@ -49,33 +49,33 @@ namespace CodingDojo4_Minesweeper.Tests
         [Test]
         public void ShouldShowCorretResultGivenSingleBomb()
         {
-            var _minesweeper = new Minesweeper(
+            var minesweeper = new Minesweeper(
                 new MinePlace(row: 1, col: 1)
             );
 
-            var board = _minesweeper.GetResult();
+            var board = minesweeper.GetResult();
             Assert.That(board, Is.EqualTo(
-                "*1--" +
-                "11--" +
-                "----" +
-                "----"
+                "*100" +
+                "1100" +
+                "0000" +
+                "0000"
             ));
         }
 
         [Test]
         public void ShouldShowCorretResultGivenMultipeBombs()
         {
-            var _minesweeper = new Minesweeper(
+            var minesweeper = new Minesweeper(
                 new MinePlace(row: 1, col: 1),
                 new MinePlace(row: 3, col: 3)
             );
 
-            var board = _minesweeper.GetResult();
+            var board = minesweeper.GetResult();
             Assert.That(board, Is.EqualTo(
-                "*1--" +
-                "1111" +
-                "-1*1" +
-                "-111"
+                "*100" +
+                "1211" +
+                "01*1" +
+                "0111"
             ));
         }
     }
