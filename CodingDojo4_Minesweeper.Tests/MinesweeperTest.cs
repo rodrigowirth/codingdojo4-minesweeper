@@ -62,12 +62,22 @@ namespace CodingDojo4_Minesweeper.Tests
         }
 
 		[Test]
-		public void GivenAnBombAtFirstPosition_SolutionWillBeThreeFieldsAroundItWith1PointEachOne()
+		public void GivenAnBombAtFirstPosition_SolutionWillBe3FieldsAroundItWith1PointEachOne()
 		{
 			_minesweeper.AddBombToFieldAt(0, 0);
 			Assert.AreEqual("*100" + 
 			                "1100" + 
 			                "0000" + 
+			                "0000", _minesweeper.Solve());
+		}
+
+		[Test]
+		public void GivenAnBombAtPositionRow1Col1_SolutionWillBe8FieldsAroundItWith1PointEachOne()
+		{
+			_minesweeper.AddBombToFieldAt(1, 1);
+			Assert.AreEqual("1110" + 
+			                "1*10" + 
+			                "1110" + 
 			                "0000", _minesweeper.Solve());
 		}
     }
