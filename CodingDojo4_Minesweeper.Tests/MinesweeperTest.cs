@@ -19,24 +19,24 @@ namespace CodingDojo4_Minesweeper.Tests
             _minesweeper = new Minesweeper();
         }
 
-        [Test, Ignore]
+        [Test]
         public void GivenAnEmptyMinesweeperShouldReturnsAll0()
         {
-            Assert.AreEqual("0000000000000000", _minesweeper.Field);
+			Assert.AreEqual("................", _minesweeper.ToString());
         }
 
         [Test]
         public void GivenAnFieldWithOneBombShouldReturnOneStar()
         {
-            _minesweeper.AddBombToFieldAt(0);
-            Assert.AreEqual("*000000000000000", _minesweeper.Field);
+            _minesweeper.AddBombToFieldAt(0, 0);
+			Assert.AreEqual("*...............", _minesweeper.ToString());
         }
 
         [Test]
         public void GivenAnFieldWithOneBombInPosition3ShouldReturnOneStar()
         {
-            _minesweeper.AddBombToFieldAt(3);
-            Assert.AreEqual("000*000000000000", _minesweeper.Field);
+            _minesweeper.AddBombToFieldAt(0, 3);
+			Assert.AreEqual("...*............", _minesweeper.ToString());
         }
 
         [Test]
