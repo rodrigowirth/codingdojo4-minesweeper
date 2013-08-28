@@ -80,5 +80,16 @@ namespace CodingDojo4_Minesweeper.Tests
 			                "1110" + 
 			                "0000", _minesweeper.Solve());
 		}
+
+		[Test]
+		public void GivenAnBombAtPositionRow1Col1AndRow2Col2_SolutionWillBeFieldsAroundItWith1And2Points()
+		{
+			_minesweeper.AddBombToFieldAt (1, 1);
+			_minesweeper.AddBombToFieldAt (2, 2);
+			Assert.AreEqual("1110" + 
+			                "1*21" + 
+			                "12*1" + 
+			                "0111", _minesweeper.Solve());
+		}
     }
 }
