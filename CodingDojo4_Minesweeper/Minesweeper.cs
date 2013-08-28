@@ -33,7 +33,23 @@ namespace CodingDojo4_Minesweeper
 		public string Solve()
 		{
 			var sb = new StringBuilder ();
-			GoThroughAllFields (field => sb.Append (field == char.MinValue ? blankValue : field));
+			for (int row = 0; row < height; row++) {
+				for (int col = 0; col < width; col++) {
+					if (Fields [row, col] == char.MinValue)
+						sb.Append (blankValue);
+					else if(Fields [row, col] == bombMark) {
+						sb.Append (bombMark);
+
+						// around fields
+						Fields [row, col + 1] = '1';
+						Fields [row + 1, col] = '1';
+						Fields [row + 1, col + 1] = '1';
+
+					}
+					else
+						sb.Append(Fields [row, col]);
+				}
+			}
 			return sb.ToString ();
 		}
 

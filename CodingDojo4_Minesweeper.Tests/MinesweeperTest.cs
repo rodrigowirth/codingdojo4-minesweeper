@@ -22,33 +22,53 @@ namespace CodingDojo4_Minesweeper.Tests
         [Test]
         public void GivenAnEmptyMinesweeperShouldReturnsAll0()
         {
-			Assert.AreEqual("................", _minesweeper.ToString());
+			Assert.AreEqual("...." + 
+			                "...." + 
+			                "...." + 
+			                "....", _minesweeper.ToString());
         }
 
         [Test]
         public void GivenAnFieldWithOneBombShouldReturnOneStar()
         {
             _minesweeper.AddBombToFieldAt(0, 0);
-			Assert.AreEqual("*...............", _minesweeper.ToString());
+			Assert.AreEqual("*..." + 
+			                "...." + 
+			                "...." + 
+			                "....", _minesweeper.ToString());
         }
 
         [Test]
         public void GivenAnFieldWithOneBombInPosition3ShouldReturnOneStar()
         {
             _minesweeper.AddBombToFieldAt(0, 3);
-			Assert.AreEqual("...*............", _minesweeper.ToString());
+			Assert.AreEqual("...*" + 
+			                "...." + 
+			                "...." + 
+			                "....", _minesweeper.ToString());
         }
 
-        [Test]
-        public void GivenAnEmptyField_SolutionWillBeAllZeroes()
-        {
-            Assert.AreEqual("0000000000000000", _minesweeper.Solve());
-        }
+		//
+		// RESULT SOLVE
+		//
 
         [Test]
-        public void GivenAnField_ShouldVerify()
+        public void GivenAnEmptyBoard_SolutionWillBeAllZeroes()
         {
-            Assert.AreEqual("0000000000000000", _minesweeper.Solve());
+			Assert.AreEqual("0000" + 
+			                "0000" + 
+			                "0000" + 
+			                "0000", _minesweeper.Solve());
         }
+
+		[Test]
+		public void GivenAnBombAtFirstPosition_SolutionWillBeThreeFieldsAroundItWith1PointEachOne()
+		{
+			_minesweeper.AddBombToFieldAt(0, 0);
+			Assert.AreEqual("*100" + 
+			                "1100" + 
+			                "0000" + 
+			                "0000", _minesweeper.Solve());
+		}
     }
 }
