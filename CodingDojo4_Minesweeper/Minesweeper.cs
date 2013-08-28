@@ -12,14 +12,12 @@ namespace CodingDojo4_Minesweeper
 		const char blankMark = '.';
 		const char bombMark = '*';
 		const char blankValue = '0';
-		char[,] fieldsResult;
 		public char[,] Fields { get; private set; }
 
 
 		public Minesweeper()
 		{
 			Fields = new char[width,height];
-			fieldsResult = new char[width,height];
 		}
 
 		public void AddBombToFieldAt(int row, int col)
@@ -27,30 +25,18 @@ namespace CodingDojo4_Minesweeper
 			Fields[row, col] = bombMark;
 		}
 
-		public override string ToString()
-		{
-			var sb = new StringBuilder ();
-			GoThroughAllFields (field => sb.Append (field == char.MinValue ? blankMark : field));
-			return sb.ToString ();
-		}
-
 		public string Solve()
 		{
 			// prepare result
-			fieldsResult = Fields;
-			for (int row = 0; row < height; row++) {
-				for (int col = 0; col < width; col++) {
-					if (ExistsABombAt(row, col)) {
-						fieldsResult [row, col] = bombMark;
-						MarkFieldsAroundIt (row, col);
-					}
+			GoThroughAllFields ((field, row, col) => {
+				if (ExistsABombAt(row, col)) {
+					Fields [row, col] = bombMark;
+					MarkFieldsAroundIt (row, col);
 				}
-			}
+			});
 
 			// pass to inline
-			var sb = new StringBuilder ();
-			GoThroughAllFields (field => sb.Append (field == char.MinValue ? blankValue : field));
-			return sb.ToString ();
+			return ToInline (blankValue);
 		}
 
 		private void MarkFieldsAroundIt(int row, int col)
@@ -86,11 +72,11 @@ namespace CodingDojo4_Minesweeper
 			if (ExistsABombAt (row, col))
 				return;
 
-			int point; 			int.TryParse (fieldsResult [row, col].ToString(), out point);
+			int point; 			int.TryParse (Fields [row, col].ToString(), out point);
 
 			point++;
 
-			fieldsResult [row, col] = Convert.ToChar (point.ToString());
+			Fields [row, col] = Convert.ToChar (point.ToString());
 		}
 
 		private bool ExistsABombAt(int row, int col)
@@ -98,11 +84,28 @@ namespace CodingDojo4_Minesweeper
 			return Fields [row, col] == bombMark;
 		}
 
+		public override string ToString()
+		{
+			return ToInline (blankMark);
+		}
+
+		private string ToInline(char replaceEmptytWithIt)
+		{
+			var sb = new StringBuilder ();
+			GoThroughAllFields (field => sb.Append (field == char.MinValue ? replaceEmptytWithIt : field));
+			return sb.ToString ();
+		}
+
 		private void GoThroughAllFields(Action<char> forEachFieldDo)
+		{
+			GoThroughAllFields ((field, row, col) => forEachFieldDo(field));
+		}
+
+		private void GoThroughAllFields(Action<char, int, int> forEachFieldDo)
 		{
 			for (int row = 0; row < height; row++) {
 				for (int col = 0; col < width; col++) {
-					forEachFieldDo (Fields [row, col]);
+					forEachFieldDo (Fields [row, col], row, col);
 				}
 			}
 		}
