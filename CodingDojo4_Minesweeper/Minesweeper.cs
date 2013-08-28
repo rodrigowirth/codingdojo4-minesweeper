@@ -16,12 +16,6 @@ namespace CodingDojo4_Minesweeper
 		public Minesweeper()
 		{
 			Fields = new char[width,height];
-
-			for (int row = 0; row < height; row++) {
-				for (int col = 0; col < width; col++) {
-					Fields [row, col] = '.';
-				}
-			}
 		}
 
 		public void AddBombToFieldAt(int row, int col)
@@ -31,26 +25,25 @@ namespace CodingDojo4_Minesweeper
 
 		public override string ToString()
 		{
-			StringBuilder sb = new StringBuilder ();
-			for (int row = 0; row < height; row++) {
-				for (int col = 0; col < width; col++) {
-					sb.Append (Fields [row, col]);
-				}
-			}
+			var sb = new StringBuilder ();
+			GoThroughAllFields (field => sb.Append (field == char.MinValue ? blankMark : field));
 			return sb.ToString ();
 		}
 
 		public string Solve()
 		{
-			char field;
-			StringBuilder sb = new StringBuilder ();
+			var sb = new StringBuilder ();
+			GoThroughAllFields (field => sb.Append (field == char.MinValue ? blankValue : field));
+			return sb.ToString ();
+		}
+
+		private void GoThroughAllFields(Action<char> forEachFieldDo)
+		{
 			for (int row = 0; row < height; row++) {
 				for (int col = 0; col < width; col++) {
-					field = Fields [row, col];
-					sb.Append (field == '.' ? blankValue : field);
+					forEachFieldDo (Fields [row, col]);
 				}
 			}
-			return sb.ToString ();
 		}
 	}
 }
