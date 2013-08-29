@@ -12,17 +12,19 @@ namespace CodingDojo4_Minesweeper
 		const char blankMark = '.';
 		const char bombMark = '*';
 		const char blankValue = '0';
-		public char[,] Fields { get; private set; }
+		char[,] fields;
+		FinderFieldsPosition finderPosition;
 
 
 		public Minesweeper()
 		{
-			Fields = new char[width,height];
+			fields = new char[width,height];
+			finderPosition = new FinderFieldsPosition (width, height);
 		}
 
-		public void AddBombToFieldAt(int row, int col)
+		public void AddBombAt(int row, int col)
 		{
-			Fields[row, col] = bombMark;
+			fields[row, col] = bombMark;
 		}
 
 		public string Solve()
@@ -30,7 +32,6 @@ namespace CodingDojo4_Minesweeper
 			// prepare result
 			GoThroughAllFields ((field, row, col) => {
 				if (ExistsABombAt(row, col)) {
-					Fields [row, col] = bombMark;
 					MarkFieldsAroundIt (row, col);
 				}
 			});
@@ -41,47 +42,40 @@ namespace CodingDojo4_Minesweeper
 
 		private void MarkFieldsAroundIt(int row, int col)
 		{
-			// left top
-			if(row - 1 >= 0 && col - 1 >= 0)
-				IncrementPointAt(row - 1, col - 1);
-			// top
-			if(row - 1 >= 0)
-				IncrementPointAt(row - 1, col);
-			// right top
-			if(row - 1 >= 0 && col + 1 <= width - 1)
-				IncrementPointAt(row - 1, col + 1);
-			// left
-			if(col - 1 >= 0)
-				IncrementPointAt(row, col - 1);
-			// right
-			if(col + 1 <= width - 1)
-				IncrementPointAt(row, col + 1);
-			// left bottom
-			if(row + 1 <= height - 1 && col - 1 >= 0)
-				IncrementPointAt(row + 1, col - 1);
-			// bottom
-			if(row + 1 <= height - 1)
-				IncrementPointAt(row + 1, col);
-			// right bottom
-			if(row + 1 <= height - 1 && col + 1 <= width - 1)
-				IncrementPointAt(row + 1, col + 1);
+			finderPosition.At(row, col);
+
+			IncrementPointAt(finderPosition.TopLeft());
+			IncrementPointAt(finderPosition.Top());
+			IncrementPointAt(finderPosition.TopRight());
+			IncrementPointAt(finderPosition.Left());
+			IncrementPointAt(finderPosition.Right());
+			IncrementPointAt(finderPosition.BottomLeft());
+			IncrementPointAt(finderPosition.Bottom());
+			IncrementPointAt(finderPosition.BottomRight());
 		}
 
-		private void IncrementPointAt(int row, int col)
+		private void IncrementPointAt(int[] position)
 		{
+			if (position == null || position.Length < 2)
+				return;
+
+			int row = position [0];
+			int col = position [1];
+
 			if (ExistsABombAt (row, col))
 				return;
 
-			int point; 			int.TryParse (Fields [row, col].ToString(), out point);
+			int point;
+			int.TryParse (fields [row, col].ToString(), out point);
 
 			point++;
 
-			Fields [row, col] = Convert.ToChar (point.ToString());
+			fields [row, col] = Convert.ToChar (point.ToString());
 		}
 
 		private bool ExistsABombAt(int row, int col)
 		{
-			return Fields [row, col] == bombMark;
+			return fields [row, col] == bombMark;
 		}
 
 		public override string ToString()
@@ -105,10 +99,9 @@ namespace CodingDojo4_Minesweeper
 		{
 			for (int row = 0; row < height; row++) {
 				for (int col = 0; col < width; col++) {
-					forEachFieldDo (Fields [row, col], row, col);
+					forEachFieldDo (fields [row, col], row, col);
 				}
 			}
 		}
 	}
 }
-
