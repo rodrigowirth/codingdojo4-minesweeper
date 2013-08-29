@@ -24,15 +24,56 @@ namespace CodingDojo4_Minesweeper.Tests
 			};
 
 			_aroundFields = new AroundFields (fields);
+			_aroundFields.At(1, 1);
 		}
 
         [Test]
-        public void GivenAnMinesweeperShouldReturnsTheLeftTopField()
+        public void GivenAnMinesweeperShouldReturnsTheTopLefField()
         {
-			_aroundFields.At(1, 1);
 			Assert.AreEqual('A', _aroundFields.TopLeft());
         }
 
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheTopField()
+		{
+			Assert.AreEqual('B', _aroundFields.Top());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheTopRightField()
+		{
+			Assert.AreEqual('C', _aroundFields.TopRight());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheLefField()
+		{
+			Assert.AreEqual('H', _aroundFields.Left());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheRightField()
+		{
+			Assert.AreEqual('D', _aroundFields.Right());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheBottomLefField()
+		{
+			Assert.AreEqual('G', _aroundFields.BottomLeft());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheBottomField()
+		{
+			Assert.AreEqual('F', _aroundFields.Bottom());
+		}
+
+		[Test]
+		public void GivenAnMinesweeperShouldReturnsTheBottomRightField()
+		{
+			Assert.AreEqual('E', _aroundFields.BottomRight());
+		}
        
     }
 }
